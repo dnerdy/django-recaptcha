@@ -52,7 +52,7 @@ class ReCaptchaField(forms.CharField):
         recaptcha_challenge_value = smart_unicode(values[0])
         recaptcha_response_value = smart_unicode(values[1])
 
-        if settings.DEBUG and recaptcha_response_value == 'PASSED':
+        if getattr(settings, 'RECAPTCHA_BYPASS', False) and recaptcha_response_value == 'PASSED':
             return values[0]
 
         check_captcha = client.submit(recaptcha_challenge_value, \
